@@ -5,125 +5,722 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nuhas Ahamed | Portfolio</title>
   <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --primary: #0f172a;
+      --primary-soft: #1e3a5f;
+      --accent: #2e6fe8;
+      --accent-soft: #dfeaff;
+      --text: #1f2937;
+      --muted: #5b6475;
+      --line: #e7ebf3;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --hero-bg-1: #0b1324;
+      --hero-bg-2: #112744;
+      --hero-bg-3: #183b64;
+      --hero-card: rgba(255, 255, 255, 0.08);
+      --card-soft: #f9fbff;
+      --pill-bg: #edf4ff;
+      --pill-border: #d9e7ff;
+      --toggle-bg: rgba(255,255,255,0.08);
+      --toggle-border: rgba(255,255,255,0.14);
+      --toggle-text: #ffffff;
+    }
+
+    body[data-theme="dark"] {
+      --bg: #0a1220;
+      --panel: #111b2d;
+      --primary: #ebf2ff;
+      --primary-soft: #dfeaff;
+      --accent: #8bb2ff;
+      --accent-soft: rgba(139, 178, 255, 0.14);
+      --text: #e5ecff;
+      --muted: #afbdd8;
+      --line: #1f2e46;
+      --shadow: 0 18px 45px rgba(2, 6, 23, 0.45);
+      --hero-bg-1: #020b17;
+      --hero-bg-2: #0d1b2d;
+      --hero-bg-3: #162a43;
+      --hero-card: rgba(15, 23, 42, 0.72);
+      --card-soft: #0f1b2d;
+      --pill-bg: rgba(139, 178, 255, 0.10);
+      --pill-border: rgba(139, 178, 255, 0.25);
+      --toggle-bg: rgba(255,255,255,0.06);
+      --toggle-border: rgba(255,255,255,0.12);
+      --toggle-text: #eaf2ff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background: #f4f6f8;
-      color: #333;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(180deg, #edf3ff 0%, var(--bg) 28%, #f8f9fb 100%);
+      color: var(--text);
+      line-height: 1.7;
+      transition: background 0.3s ease, color 0.3s ease;
     }
-    header {
-      background: #0a2540;
+
+    body[data-theme="dark"] {
+      background: linear-gradient(180deg, #07111d 0%, var(--bg) 30%, #0b1424 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--hero-bg-1) 0%, var(--hero-bg-2) 38%, var(--hero-bg-3) 100%);
       color: #fff;
-      padding: 40px 20px;
-      text-align: center;
+      padding: 30px 0 70px;
+      position: relative;
+      overflow: hidden;
     }
-    header h1 { margin: 0; }
-    section {
-      max-width: 1000px;
-      margin: auto;
-      background: #fff;
-      padding: 30px;
-      margin-top: 20px;
-      border-radius: 8px;
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(46, 111, 232, 0.32), transparent 35%);
+      pointer-events: none;
     }
-    h2 { color: #0a2540; }
-    ul { padding-left: 20px; }
-    .skills span {
-      display: inline-block;
-      background: #e6eef7;
-      padding: 8px 12px;
-      margin: 5px;
-      border-radius: 5px;
+
+    .topbar {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 28px;
     }
-    .project {
-      margin-bottom: 20px;
+
+    .menu-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 18px;
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      flex: 1;
+      max-width: 920px;
+      min-width: 0;
+      margin: 0 auto;
     }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #0a2540;
-      color: white;
+
+    .menu-contents {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.86);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-weight: 600;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0;
+      height: 2px;
+      background: rgba(255,255,255,0.9);
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .theme-toggle {
+      border: 1px solid var(--toggle-border);
+      background: var(--toggle-bg);
+      color: var(--toggle-text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      transition: transform 0.25s ease, opacity 0.25s ease, border-color 0.25s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.6fr 0.9fr;
+      align-items: center;
+      gap: 40px;
+      padding-top: 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: #b9d1ff;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .title-line {
+      display: block;
+      color: #dfeaff;
+    }
+
+    .hero-copy p {
+      font-size: 1.05rem;
+      max-width: 620px;
+      color: rgba(255,255,255,0.82);
+      margin-top: 18px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, #ffffff 0%, #eaf1ff 100%);
+      color: #0f172a;
+      box-shadow: 0 10px 24px rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.28);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .button.secondary {
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.22);
+      color: #fff;
+    }
+
+    .button:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 16px 32px rgba(46, 111, 232, 0.22);
+    }
+
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #f8fbff;
+      font-weight: 500;
+    }
+
+    .profile-card {
+      background: var(--hero-card);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 22px;
+      padding: 28px 24px;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+    }
+
+    .profile-card .mini-label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #bfd2ff;
+      margin-bottom: 12px;
+    }
+
+    .profile-card h3 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .profile-card .meta {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+      color: rgba(255,255,255,0.88);
+      font-size: 0.97rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 8px;
+    }
+
+    .meta-item strong {
+      color: #ffffff;
+      min-width: 64px;
+    }
+
+    main {
+      padding: 52px 0 70px;
+    }
+
+    .section-block {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 28px 30px;
       margin-top: 30px;
     }
-    a { color: #0a66c2; text-decoration: none; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.55rem, 2vw, 2.1rem);
+      color: var(--primary);
+      letter-spacing: -0.03em;
+    }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--primary-soft);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .about-text {
+      color: var(--muted);
+      font-size: 1.02rem;
+      margin: 0;
+    }
+
+    .education-grid,
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    .edu-card,
+    .project-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      background: linear-gradient(180deg, var(--panel) 0%, var(--card-soft) 100%);
+    }
+
+    .edu-card strong,
+    .project-card h3 {
+      color: var(--primary);
+      font-size: 1.12rem;
+    }
+
+    .edu-card p,
+    .project-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .skills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .skill-pill {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      color: var(--primary-soft);
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .project-card .tech {
+      margin-top: auto;
+      color: var(--primary-soft);
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(46, 111, 232, 0.15);
+      color: var(--primary-soft);
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .project-link:hover {
+      background: rgba(46, 111, 232, 0.12);
+    }
+
+    .list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 22px;
+      color: var(--muted);
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #7aa6ff);
+      box-shadow: 0 0 0 4px rgba(46,111,232,0.12);
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 16px 40px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 820px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .menu-bar {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 14px 18px;
+      }
+
+      .hero-content,
+      .education-grid,
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-block {
+        padding: 22px 18px;
+      }
+    }
   </style>
 </head>
-<body>
+<body data-theme="dark">
+  <header class="hero">
+    <div class="container">
+      <nav class="topbar" aria-label="Main navigation">
+        <div class="menu-bar">
+          <div class="logo">NA</div>
+          <div class="menu-contents">
+            <div class="nav-links">
+              <a href="#about">About</a>
+              <a href="#experience">Experience</a>
+              <a href="#education">Education</a>
+              <a href="#skills">Skills</a>
+              <a href="#projects">Projects</a>
+              <a href="#awards">Achievements</a>
+            </div>
+          </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀️ Light</button>
+      </nav>
 
-<header>
-  <h1>Nuhas Ahamed</h1>
-  <p>Intern Software Engineer</p>
-  <p>Email: <a href="mailto:nuhasibrahim@gmail.com">nuhasibrahim@gmail.com</a> | Phone: 076 437 6883</p>
-  <p>
-    <a href="https://github.com/NuhasAhamed2000">GitHub</a> | 
-    <a href="https://www.linkedin.com/in/nuhas-ibrahim-54820b216">LinkedIn</a>
-  </p>
-</header>
+      <div class="hero-content">
+        <div class="hero-copy">
+          <p class="eyebrow">Software Engineering Undergraduate</p>
+          <h1>Nuhas <span class="title-line">Ahamed</span></h1>
+          <p>
+            I am an enthusiastic and dedicated software engineering student at Sabaragamuwa University of Sri Lanka,
+            focused on building reliable digital solutions and growing in modern development environments.
+          </p>
+          <div class="cta-row">
+            <a class="button primary" href="mailto:nuhasibrahim@gmail.com">Email Me</a>
+            <a class="button secondary" href="#projects">View Projects</a>
+          </div>
+          <div class="socials">
+            <a href="https://github.com/NuhasAhamed2000" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/nuhas-ibrahim-54820b216" target="_blank" rel="noreferrer">LinkedIn</a>
+          </div>
+        </div>
 
-<section>
-  <h2>About Me</h2>
-  <p>
-    I am an enthusiastic and dedicated Software Engineering undergraduate at Sabaragamuwa University of Sri Lanka,
-    seeking an internship opportunity. I am passionate about modern technologies, clean code, and collaborative
-    development in agile environments.
-  </p>
-</section>
+        <aside class="profile-card" aria-label="Contact information">
+          <span class="mini-label">Profile</span>
+          <h3>Software Engineering Student</h3>
+          <div class="meta">
+            <div class="meta-item"><strong>Email</strong><span>nuhasibrahim@gmail.com</span></div>
+            <div class="meta-item"><strong>Phone</strong><span>076 437 6883</span></div>
+            <div class="meta-item"><strong>Location</strong><span>Sri Lanka</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
 
-<section>
-  <h2>Education</h2>
-  <p><strong>BSc (Hons) in Computing and Information Systems</strong><br>
-  Sabaragamuwa University of Sri Lanka (2023 – Present)</p>
+  <main class="container">
+    <section id="about" class="section-block">
+      <div class="section-header">
+        <h2>About Me</h2>
+        <span class="section-tag">Profile</span>
+      </div>
+      <p class="about-text">
+        I am a motivated and detail-oriented software engineering undergraduate with a strong interest in modern technologies,
+        clean code, and collaborative development. I enjoy solving real-world problems through practical engineering approaches,
+        and I am actively seeking internship opportunities to further develop my technical knowledge and professional experience.
+      </p>
+    </section>
 
-  <p><strong>Advanced Level – Physical Science Stream</strong><br>
-  STR / Muslim Madhya Maha Vidyalaya (2019 – 2021)</p>
-</section>
+    <section id="experience" class="section-block">
+      <div class="section-header">
+        <h2>Experience</h2>
+        <span class="section-tag">Professional</span>
+      </div>
+      <div class="edu-card">
+        <strong>Odoo Consultant Intern — EverestX</strong>
+        <p>December 2025 – June 2026 | Remote</p>
+        <p>Completed a six-month internship focused on Odoo ERP implementation and functional consulting. Gained hands-on experience configuring Sales, Purchase, Inventory, POS, and Accounting modules, supporting multi-branch operations, analyzing business requirements, and preparing user documentation for client implementations.</p>
+      </div>
+    </section>
 
-<section>
-  <h2>Technical Skills</h2>
-  <div class="skills">
-    <span>Java</span><span>Python</span><span>C</span><span>JavaScript</span>
-    <span>HTML</span><span>CSS</span><span>React (Basic)</span>
-    <span>MySQL</span><span>MongoDB</span>
-    <span>Node.js</span><span>Git</span><span>GitHub</span>
-    <span>VS Code</span><span>IntelliJ IDEA</span>
-    <span>Figma</span><span>Canva</span>
-  </div>
-</section>
+    <section id="education" class="section-block">
+      <div class="section-header">
+        <h2>Education</h2>
+        <span class="section-tag">Academic</span>
+      </div>
+      <div class="education-grid">
+        <div class="edu-card">
+          <strong>BSc (Hons) in Computing and Information Systems</strong>
+          <p>Sabaragamuwa University of Sri Lanka</p>
+          <p>2023 – Present</p>
+        </div>
+        <div class="edu-card">
+          <strong>Advanced Level – Physical Science Stream</strong>
+          <p>STR / Muslim Madhya Maha Vidyalaya</p>
+          <p>2019 – 2021</p>
+        </div>
+      </div>
+    </section>
 
-<section>
-  <h2>Projects</h2>
+    <section id="skills" class="section-block">
+      <div class="section-header">
+        <h2>Technical Skills</h2>
+        <span class="section-tag">Core</span>
+      </div>
+      <div class="skills-wrap">
+        <span class="skill-pill">Java</span>
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">C</span>
+        <span class="skill-pill">JavaScript</span>
+        <span class="skill-pill">HTML</span>
+        <span class="skill-pill">CSS</span>
+        <span class="skill-pill">React (Basic)</span>
+        <span class="skill-pill">MySQL</span>
+        <span class="skill-pill">MongoDB</span>
+        <span class="skill-pill">Node.js</span>
+        <span class="skill-pill">Git</span>
+        <span class="skill-pill">GitHub</span>
+        <span class="skill-pill">VS Code</span>
+        <span class="skill-pill">IntelliJ IDEA</span>
+        <span class="skill-pill">Figma</span>
+        <span class="skill-pill">Canva</span>
+      </div>
+    </section>
 
-  <div class="project">
-    <h3>Elephant Detective & Deterrence System (EleFence360)</h3>
-    <p>
-      Mobile application to detect elephant movement in real-time using IoT sensor data and trigger alerts
-      with automated deterrence features.
-    </p>
-    <p><strong>Technologies:</strong> Flutter, Firebase, Arduino, IoT Sensors</p>
-  </div>
+    <section id="projects" class="section-block">
+      <div class="section-header">
+        <h2>Projects</h2>
+        <span class="section-tag">Work</span>
+      </div>
+      <div class="project-grid">
+        <article class="project-card">
+          <h3>Elephant Detective &amp; Deterrence System (EleFence360)</h3>
+          <p>
+            A mobile application designed to detect elephant movement in real time using IoT sensor data and trigger alerts
+            with automated deterrence features to support wildlife safety and risk reduction.
+          </p>
+          <div class="tech">Technologies: Flutter, Firebase, Arduino, IoT Sensors</div>
+          <div class="project-links">
+            <a class="project-link" href="https://github.com/GayaniGunasekara/EleFence360.git" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </article>
 
-  <div class="project">
-    <h3>Online Complaint Management System</h3>
-    <p>
-      Web-based system for Pradeshiya Sabha enabling citizens to submit and track complaints with an
-      admin dashboard and real-time status updates.
-    </p>
-    <p><strong>Technologies:</strong> HTML, CSS, JavaScript, React.js, Node.js, MongoDB</p>
-  </div>
-</section>
+        <article class="project-card">
+          <h3>Online Complaint Management System</h3>
+          <p>
+            A web-based platform for Pradeshiya Sabha that allows citizens to submit and track complaints while providing an
+            administrative dashboard for efficient issue monitoring and resolution.
+          </p>
+          <div class="tech">Technologies: HTML, CSS, JavaScript, React.js, Node.js, MongoDB</div>
+          <div class="project-links">
+            <a class="project-link" href="https://github.com/ShajahanImdaad53/online-complaint-box.git" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </article>
+      </div>
+    </section>
 
-<section>
-  <h2>Achievements & Volunteering</h2>
-  <ul>
-    <li>Merit Award – EleFence360, NBQSA 2025 National ICT Awards</li>
-    <li>Member – IEEE Student Branch, Sabaragamuwa University of Sri Lanka</li>
-    <li>Member – Society of Computer Science</li>
-  </ul>
-</section>
+    <section id="awards" class="section-block">
+      <div class="section-header">
+        <h2>Achievements &amp; Volunteering</h2>
+        <span class="section-tag">Recognition</span>
+      </div>
+      <ul class="list">
+        <li>Merit Award – EleFence360, NBQSA 2025 National ICT Awards</li>
+        <li>Member – IEEE Student Branch, Sabaragamuwa University of Sri Lanka</li>
+        <li>Member – Society of Computer Science</li>
+      </ul>
+    </section>
+  </main>
 
-<footer>
-  <p>© 2025 Nuhas Ahamed | Portfolio</p>
-</footer>
+  <footer>
+    © 2026 Nuhas Ahamed | Portfolio
+  </footer>
 
+  <script>
+    const body = document.body;
+    const toggleButton = document.getElementById('themeToggle');
+
+    const applyTheme = (theme) => {
+      body.setAttribute('data-theme', theme);
+      if (toggleButton) {
+        toggleButton.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+      }
+    };
+
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    const initialTheme = savedTheme || 'dark';
+    applyTheme(initialTheme);
+
+    toggleButton.addEventListener('click', () => {
+      const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('portfolio-theme', nextTheme);
+      applyTheme(nextTheme);
+    });
+  </script>
 </body>
 </html>
