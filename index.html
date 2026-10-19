@@ -540,6 +540,109 @@
       background: rgba(46, 111, 232, 0.12);
     }
 
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 28px;
+    }
+
+    .contact-intro {
+      margin: 0 0 18px;
+      color: var(--muted);
+    }
+
+    .contact-details {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .contact-detail {
+      display: grid;
+      gap: 4px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(180deg, var(--panel), var(--card-soft));
+    }
+
+    .contact-detail strong {
+      color: var(--primary);
+    }
+
+    .contact-detail a {
+      color: var(--primary-soft);
+      overflow-wrap: anywhere;
+    }
+
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .contact-field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .contact-field.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .contact-field label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .contact-field input,
+    .contact-field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: var(--bg);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .contact-field textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .contact-field input:focus-visible,
+    .contact-field textarea:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .contact-submit {
+      grid-column: 1 / -1;
+      justify-self: start;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 22px;
+      background: var(--accent);
+      color: #ffffff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .contact-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(46, 111, 232, 0.24);
+    }
+
+    .contact-note {
+      grid-column: 1 / -1;
+      margin: -6px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
     .list {
       list-style: none;
       margin: 0;
@@ -663,7 +766,8 @@
 
       .hero-content,
       .education-grid,
-      .project-grid {
+      .project-grid,
+      .contact-layout {
         grid-template-columns: 1fr;
       }
 
@@ -690,8 +794,23 @@
       }
 
       .button,
-      .socials a {
+      .socials a,
+      .contact-submit {
         width: 100%;
+      }
+
+      .contact-form {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-field.full-width,
+      .contact-submit,
+      .contact-note {
+        grid-column: auto;
+      }
+
+      .contact-submit {
+        justify-self: stretch;
       }
     }
 
@@ -746,6 +865,7 @@
               <a href="#skills">Skills</a>
               <a href="#projects">Projects</a>
               <a href="#awards">Achievements</a>
+              <a href="#contact">Contact</a>
             </div>
           </div>
         </div>
@@ -898,6 +1018,46 @@
         <li>Member – Society of Computer Science</li>
       </ul>
     </section>
+
+    <section id="contact" class="section-block">
+      <div class="section-header">
+        <h2>Contact Me</h2>
+        <span class="section-tag">Get in touch</span>
+      </div>
+      <div class="contact-layout">
+        <div class="contact-details">
+          <p class="contact-intro">Have a question or an opportunity to discuss? Send me a message.</p>
+          <div class="contact-detail">
+            <strong>Email</strong>
+            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=nuhasibrahim2000%40gmail.com" target="_blank" rel="noopener noreferrer">nuhasibrahim2000@gmail.com</a>
+          </div>
+          <div class="contact-detail">
+            <strong>Phone</strong>
+            <a href="tel:+94764376883">076 437 6883</a>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <div class="contact-field">
+            <label for="contactName">Your name</label>
+            <input id="contactName" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="contact-field">
+            <label for="contactEmail">Your email</label>
+            <input id="contactEmail" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="contact-field full-width">
+            <label for="contactSubject">Subject</label>
+            <input id="contactSubject" name="subject" type="text" required />
+          </div>
+          <div class="contact-field full-width">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" name="message" required></textarea>
+          </div>
+          <button class="contact-submit" type="submit">Prepare email</button>
+          <p class="contact-note">This opens a Gmail draft addressed to me. Review it and press Send in Gmail.</p>
+        </form>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -909,6 +1069,7 @@
     const toggleButton = document.getElementById('themeToggle');
     const themeIcon = toggleButton.querySelector('.theme-icon');
     const themeLabel = toggleButton.querySelector('.theme-label');
+    const contactForm = document.getElementById('contactForm');
     const menuBar = document.querySelector('.menu-bar');
     const menuToggle = document.getElementById('menuToggle');
     const navigationLinks = document.querySelectorAll('#mobileNavigation a');
@@ -950,6 +1111,23 @@
       const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       localStorage.setItem('portfolio-theme', nextTheme);
       applyTheme(nextTheme);
+    });
+
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(contactForm);
+      const composeUrl = new URL('https://mail.google.com/mail/');
+      composeUrl.searchParams.set('view', 'cm');
+      composeUrl.searchParams.set('fs', '1');
+      composeUrl.searchParams.set('to', 'nuhasibrahim2000@gmail.com');
+      composeUrl.searchParams.set('su', String(formData.get('subject')));
+      composeUrl.searchParams.set(
+        'body',
+        `Name: ${formData.get('name')}\nEmail: ${formData.get('email')}\n\n${formData.get('message')}`
+      );
+
+      window.open(composeUrl.toString(), '_blank', 'noopener,noreferrer');
     });
   </script>
 </body>
