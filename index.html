@@ -703,6 +703,13 @@
       box-shadow: 0 8px 20px rgba(46, 111, 232, 0.24);
     }
 
+    .contact-submit:disabled {
+      cursor: wait;
+      opacity: 0.7;
+      transform: none;
+      box-shadow: none;
+    }
+
     .contact-note {
       grid-column: 1 / -1;
       margin: -6px 0 0;
@@ -1116,22 +1123,22 @@
         <form class="contact-form" id="contactForm">
           <div class="contact-field">
             <label for="contactName">Your name</label>
-            <input id="contactName" name="name" type="text" autocomplete="name" required />
+            <input id="contactName" name="name" type="text" autocomplete="name" maxlength="100" required />
           </div>
           <div class="contact-field">
             <label for="contactEmail">Your email</label>
-            <input id="contactEmail" name="email" type="email" autocomplete="email" required />
+            <input id="contactEmail" name="email" type="email" autocomplete="email" maxlength="254" required />
           </div>
           <div class="contact-field full-width">
             <label for="contactSubject">Subject</label>
-            <input id="contactSubject" name="subject" type="text" required />
+            <input id="contactSubject" name="subject" type="text" maxlength="150" required />
           </div>
           <div class="contact-field full-width">
             <label for="contactMessage">Message</label>
-            <textarea id="contactMessage" name="message" required></textarea>
+            <textarea id="contactMessage" name="message" maxlength="5000" required></textarea>
           </div>
-          <button class="contact-submit" type="submit">Prepare email</button>
-          <p class="contact-note">This opens a Gmail draft addressed to me. Review it and press Send in Gmail.</p>
+          <button class="contact-submit" type="submit">Send message</button>
+          <p class="contact-note" id="contactStatus" role="status" aria-live="polite">Connecting to the message service…</p>
         </form>
       </div>
     </section>
@@ -1150,6 +1157,8 @@
     const menuBar = document.querySelector('.menu-bar');
     const menuToggle = document.getElementById('menuToggle');
     const navigationLinks = document.querySelectorAll('#mobileNavigation a');
+
+    contactForm.addEventListener('submit', (event) => event.preventDefault());
 
     const closeMenu = () => {
       menuBar.classList.remove('is-open');
@@ -1190,21 +1199,63 @@
       applyTheme(nextTheme);
     });
 
-    contactForm.addEventListener('submit', (event) => {
+  </script>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+    import { collection, getFirestore, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyC2s2kc5BG5693APEkFK0wUbEAjoYVrl-s',
+      authDomain: 'nuhas-portfolio.firebaseapp.com',
+      projectId: 'nuhas-portfolio',
+      storageBucket: 'nuhas-portfolio.firebasestorage.app',
+      messagingSenderId: '43347909677',
+      appId: '1:43347909677:web:da4264b4323b5fa9152ca4',
+      measurementId: 'G-5CL1QLP3DK'
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    const database = getFirestore(firebaseApp);
+    const contactForm = document.getElementById('contactForm');
+    const contactStatus = document.getElementById('contactStatus');
+    const contactSubmit = contactForm.querySelector('button[type="submit"]');
+    contactStatus.textContent = 'Your message will be sent securely.';
+
+    contactForm.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       const formData = new FormData(contactForm);
-      const composeUrl = new URL('https://mail.google.com/mail/');
-      composeUrl.searchParams.set('view', 'cm');
-      composeUrl.searchParams.set('fs', '1');
-      composeUrl.searchParams.set('to', 'nuhasibrahim2000@gmail.com');
-      composeUrl.searchParams.set('su', String(formData.get('subject')));
-      composeUrl.searchParams.set(
-        'body',
-        `Name: ${formData.get('name')}\nEmail: ${formData.get('email')}\n\n${formData.get('message')}`
-      );
+      const message = {
+        name: String(formData.get('name')).trim(),
+        email: String(formData.get('email')).trim(),
+        subject: String(formData.get('subject')).trim(),
+        message: String(formData.get('message')).trim()
+      };
 
-      window.open(composeUrl.toString(), '_blank', 'noopener,noreferrer');
+      if (Object.values(message).some((value) => !value)) {
+        contactStatus.textContent = 'Please complete every field before sending.';
+        return;
+      }
+
+      contactSubmit.disabled = true;
+      contactSubmit.textContent = 'Sending…';
+      contactStatus.textContent = 'Sending your message…';
+
+      try {
+        await addDoc(collection(database, 'contactMessages'), {
+          ...message,
+          createdAt: serverTimestamp()
+        });
+        contactForm.reset();
+        contactStatus.textContent = 'Thanks! Your message has been sent.';
+      } catch (error) {
+        console.error('Unable to submit contact form to Firestore:', error);
+        contactStatus.textContent = 'Your message could not be sent. Please try again later.';
+      } finally {
+        contactSubmit.disabled = false;
+        contactSubmit.textContent = 'Send message';
+      }
     });
   </script>
 </body>
