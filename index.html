@@ -1242,17 +1242,38 @@
       contactSubmit.textContent = 'Sending…';
       contactStatus.textContent = 'Sending your message…';
 
+      let timeoutId;
+      const submission = addDoc(collection(database, 'contactMessages'), {
+        ...message,
+        createdAt: serverTimestamp()
+      });
+
       try {
-        await addDoc(collection(database, 'contactMessages'), {
-          ...message,
-          createdAt: serverTimestamp()
-        });
+        await Promise.race([
+          submission,
+          new Promise((_, reject) => {
+            timeoutId = window.setTimeout(() => {
+              const error = new Error('Firestore request timed out.');
+              error.code = 'timeout';
+              reject(error);
+            }, 20000);
+          })
+        ]);
         contactForm.reset();
         contactStatus.textContent = 'Thanks! Your message has been sent.';
       } catch (error) {
         console.error('Unable to submit contact form to Firestore:', error);
-        contactStatus.textContent = 'Your message could not be sent. Please try again later.';
+        if (error.code === 'permission-denied') {
+          contactStatus.textContent = 'Firebase denied the submission. Check that the published Firestore rules allow contact messages.';
+        } else if (error.code === 'failed-precondition' || error.code === 'not-found') {
+          contactStatus.textContent = 'Firestore is not ready for submissions. Check that a Firestore database has been created.';
+        } else if (error.code === 'unavailable' || error.code === 'timeout') {
+          contactStatus.textContent = 'Firebase did not respond in time. Check your connection and Firestore before retrying.';
+        } else {
+          contactStatus.textContent = 'Your message could not be sent. Check the browser Console for the Firebase error.';
+        }
       } finally {
+        window.clearTimeout(timeoutId);
         contactSubmit.disabled = false;
         contactSubmit.textContent = 'Send message';
       }
