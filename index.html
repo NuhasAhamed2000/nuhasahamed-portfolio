@@ -229,51 +229,134 @@
       width: 100%;
     }
 
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
     .theme-toggle {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 9px;
-      min-width: 126px;
-      border: 1px solid rgba(255, 255, 255, 0.24);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07));
-      color: #ffffff;
+      gap: 10px;
+      padding: 6px 14px 6px 8px;
       border-radius: 999px;
-      padding: 10px 17px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 100%);
+      color: #ffffff;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-family: inherit;
+      font-size: 0.84rem;
       font-weight: 700;
       letter-spacing: 0.02em;
-      box-shadow: 0 5px 18px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      box-shadow: 0 4px 14px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
       white-space: nowrap;
-    }
-
-    .theme-icon {
-      font-size: 1rem;
-      line-height: 1;
-    }
-
-    body[data-theme="light"] .theme-toggle {
-      border-color: rgba(46, 111, 232, 0.22);
-      background: linear-gradient(135deg, #ffffff, #eaf1ff);
-      color: #1e3a5f;
-      box-shadow: 0 5px 18px rgba(46, 111, 232, 0.14), inset 0 1px 0 #ffffff;
+      user-select: none;
     }
 
     .theme-toggle:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(2, 6, 23, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    body[data-theme="light"] .theme-toggle:hover {
-      border-color: rgba(46, 111, 232, 0.42);
-      box-shadow: 0 8px 22px rgba(46, 111, 232, 0.2), inset 0 1px 0 #ffffff;
+      box-shadow: 0 8px 22px rgba(2, 6, 23, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      border-color: rgba(255, 255, 255, 0.35);
     }
 
     .theme-toggle:focus-visible {
       outline: 3px solid var(--accent);
       outline-offset: 3px;
+    }
+
+    body[data-theme="light"] .theme-toggle {
+      border-color: rgba(46, 111, 232, 0.24);
+      background: linear-gradient(135deg, #ffffff 0%, #eaf1ff 100%);
+      color: #1e3a5f;
+      box-shadow: 0 4px 14px rgba(46, 111, 232, 0.14), inset 0 1px 0 #ffffff;
+    }
+
+    body[data-theme="light"] .theme-toggle:hover {
+      border-color: rgba(46, 111, 232, 0.45);
+      box-shadow: 0 8px 22px rgba(46, 111, 232, 0.22), inset 0 1px 0 #ffffff;
+    }
+
+    /* Switch Track */
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+      border-radius: 999px;
+      background: rgba(11, 23, 44, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+      transition: background 0.3s ease, border-color 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    body[data-theme="light"] .theme-switch {
+      background: #dfeaff;
+      border-color: rgba(46, 111, 232, 0.28);
+      box-shadow: inset 0 2px 4px rgba(46, 111, 232, 0.18);
+    }
+
+    /* Switch Thumb */
+    .theme-switch-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f1d33 100%);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.32s cubic-bezier(0.34, 1.4, 0.64, 1), background 0.3s ease;
+    }
+
+    /* In Dark Mode: Thumb is on the right, showing Moon */
+    body[data-theme="dark"] .theme-switch-thumb {
+      transform: translateX(22px);
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f1d33 100%);
+    }
+
+    /* In Light Mode: Thumb is on the left, showing Sun */
+    body[data-theme="light"] .theme-switch-thumb {
+      transform: translateX(0);
+      background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+    }
+
+    /* SVG Icons inside thumb */
+    .thumb-icon {
+      width: 12px;
+      height: 12px;
+      position: absolute;
+      display: block;
+      transition: opacity 0.22s ease, transform 0.32s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+
+    .thumb-icon.sun {
+      color: #f59e0b;
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.5);
+    }
+
+    .thumb-icon.moon {
+      color: #8bb2ff;
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
+
+    body[data-theme="light"] .thumb-icon.sun {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
+
+    body[data-theme="light"] .thumb-icon.moon {
+      opacity: 0;
+      transform: rotate(90deg) scale(0.5);
     }
 
     .hero-content {
@@ -772,44 +855,45 @@
 
     @media (max-width: 820px) {
       .hero {
-        padding-top: 155px;
+        padding-top: 90px;
       }
 
       .topbar {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: start;
-        gap: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 10px 16px;
       }
 
       .menu-bar {
-        position: relative;
-        grid-column: 1 / -1;
-        grid-row: 1;
-        width: 100%;
-        min-height: 68px;
-        justify-content: center;
-        flex-wrap: wrap;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: auto;
+        min-height: auto;
         padding: 0;
         border: 0;
         border-radius: 0;
         background: none;
         box-shadow: none;
         backdrop-filter: none;
+        margin: 0;
       }
 
       .menu-toggle {
         display: inline-flex;
-        position: absolute;
-        top: 13px;
-        right: 0;
+        position: static;
       }
 
       .menu-contents {
         display: none;
         width: 100%;
+        order: 3;
+        padding-top: 12px;
       }
 
+      .topbar.is-open .menu-contents,
       .menu-bar.is-open .menu-contents {
         display: flex;
       }
@@ -817,25 +901,27 @@
       .nav-links {
         align-items: flex-start;
         flex-direction: column;
-        gap: 0;
+        gap: 4px;
         justify-content: flex-start;
-        width: auto;
+        width: 100%;
         white-space: normal;
+        padding: 8px 0;
       }
 
       .nav-links a {
-        width: fit-content;
-        min-height: 30px;
-        padding: 3px 4px;
-        font-size: 0.72rem;
+        width: 100%;
+        min-height: 34px;
+        padding: 6px 10px;
+        font-size: 0.85rem;
         line-height: 1.3;
       }
 
       .theme-toggle {
-        align-self: flex-end;
-        grid-column: 1 / -1;
-        grid-row: 2;
-        justify-self: end;
+        padding: 4px;
+      }
+
+      .theme-toggle .theme-label {
+        display: none;
       }
 
       .hero-content,
@@ -894,7 +980,7 @@
       }
 
       .hero {
-        padding-top: 20px;
+        padding-top: 85px;
       }
 
       h1 {
@@ -905,19 +991,10 @@
         font-size: 0.8rem;
       }
 
-      .menu-bar {
-        min-height: clamp(68px, 23vw, 96px);
-      }
-
-      .menu-toggle {
-        top: 50%;
-        transform: translateY(-50%);
-      }
-
       .logo {
-        width: clamp(68px, 23vw, 96px);
-        height: clamp(68px, 23vw, 96px);
-        border-radius: 20px;
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
       }
     }
   </style>
@@ -928,9 +1005,6 @@
       <nav class="topbar" aria-label="Main navigation">
         <div class="menu-bar">
           <img class="logo" src="logo.jfif" alt="Nuhas Ahamed" />
-          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileNavigation">
-            <span class="menu-icon" aria-hidden="true"></span>
-          </button>
           <div class="menu-contents" id="mobileNavigation">
             <div class="nav-links">
               <a href="#about">About</a>
@@ -943,10 +1017,32 @@
             </div>
           </div>
         </div>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light mode">
-          <span class="theme-icon" aria-hidden="true">☀️</span>
-          <span class="theme-label">Light mode</span>
-        </button>
+        <div class="topbar-actions">
+          <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-label="Switch to light mode" title="Switch to light mode">
+            <span class="theme-switch" aria-hidden="true">
+              <span class="theme-switch-thumb">
+                <svg class="thumb-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="4.5"></circle>
+                  <line x1="12" y1="1.5" x2="12" y2="3.5"></line>
+                  <line x1="12" y1="20.5" x2="12" y2="22.5"></line>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                  <line x1="1.5" y1="12" x2="3.5" y2="12"></line>
+                  <line x1="20.5" y1="12" x2="22.5" y2="12"></line>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="thumb-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+              </span>
+            </span>
+            <span class="theme-label">Light mode</span>
+          </button>
+          <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileNavigation">
+            <span class="menu-icon" aria-hidden="true"></span>
+          </button>
+        </div>
       </nav>
 
       <div class="hero-content">
@@ -1066,14 +1162,14 @@
       </div>
       <div class="project-grid">
         <article class="project-card">
-          <h3>Elephant Detective &amp; Deterrence System (EleFence360)</h3>
+          <h3>Elephant Detection &amp; Deterrence System (EleFence360)</h3>
           <p>
             A mobile application designed to detect elephant movement in real time using IoT sensor data and trigger alerts
             with automated deterrence features to support wildlife safety and risk reduction.
           </p>
           <div class="tech">Technologies: Flutter, Firebase, Arduino, IoT Sensors</div>
           <div class="project-links">
-            <a class="project-link" href="https://github.com/GayaniGunasekara/EleFence360.git" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="project-link" href="https://github.com/GayaniGunasekara/EleFence360" target="_blank" rel="noreferrer">GitHub</a>
           </div>
         </article>
 
@@ -1085,7 +1181,7 @@
           </p>
           <div class="tech">Technologies: HTML, CSS, JavaScript, React.js, Node.js, MongoDB</div>
           <div class="project-links">
-            <a class="project-link" href="https://github.com/ShajahanImdaad53/online-complaint-box.git" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="project-link" href="https://github.com/ShajahanImdaad53/online-complaint-box" target="_blank" rel="noreferrer">GitHub</a>
           </div>
         </article>
       </div>
@@ -1151,9 +1247,9 @@
   <script>
     const body = document.body;
     const toggleButton = document.getElementById('themeToggle');
-    const themeIcon = toggleButton.querySelector('.theme-icon');
-    const themeLabel = toggleButton.querySelector('.theme-label');
+    const themeLabel = toggleButton ? toggleButton.querySelector('.theme-label') : null;
     const contactForm = document.getElementById('contactForm');
+    const topbar = document.querySelector('.topbar');
     const menuBar = document.querySelector('.menu-bar');
     const menuToggle = document.getElementById('menuToggle');
     const navigationLinks = document.querySelectorAll('#mobileNavigation a');
@@ -1161,17 +1257,23 @@
     contactForm.addEventListener('submit', (event) => event.preventDefault());
 
     const closeMenu = () => {
-      menuBar.classList.remove('is-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.setAttribute('aria-label', 'Open navigation menu');
+      if (topbar) topbar.classList.remove('is-open');
+      if (menuBar) menuBar.classList.remove('is-open');
+      if (menuToggle) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Open navigation menu');
+      }
     };
 
-    menuToggle.addEventListener('click', () => {
-      const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuBar.classList.toggle('is-open', !isOpen);
-      menuToggle.setAttribute('aria-expanded', String(!isOpen));
-      menuToggle.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
-    });
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+        if (topbar) topbar.classList.toggle('is-open', !isOpen);
+        if (menuBar) menuBar.classList.toggle('is-open', !isOpen);
+        menuToggle.setAttribute('aria-expanded', String(!isOpen));
+        menuToggle.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
+      });
+    }
 
     navigationLinks.forEach((link) => link.addEventListener('click', closeMenu));
 
@@ -1182,10 +1284,14 @@
     const applyTheme = (theme) => {
       body.setAttribute('data-theme', theme);
       if (toggleButton) {
-        const nextTheme = theme === 'dark' ? 'light' : 'dark';
-        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
-        themeLabel.textContent = `${nextTheme === 'light' ? 'Light' : 'Dark'} mode`;
+        const isDark = theme === 'dark';
+        const nextTheme = isDark ? 'light' : 'dark';
+        if (themeLabel) {
+          themeLabel.textContent = `${nextTheme === 'light' ? 'Light' : 'Dark'} mode`;
+        }
         toggleButton.setAttribute('aria-label', `Switch to ${nextTheme} mode`);
+        toggleButton.setAttribute('title', `Switch to ${nextTheme} mode`);
+        toggleButton.setAttribute('aria-checked', String(isDark));
       }
     };
 
@@ -1193,11 +1299,13 @@
     const initialTheme = savedTheme || 'dark';
     applyTheme(initialTheme);
 
-    toggleButton.addEventListener('click', () => {
-      const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('portfolio-theme', nextTheme);
-      applyTheme(nextTheme);
-    });
+    if (toggleButton) {
+      toggleButton.addEventListener('click', () => {
+        const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('portfolio-theme', nextTheme);
+        applyTheme(nextTheme);
+      });
+    }
 
   </script>
 
