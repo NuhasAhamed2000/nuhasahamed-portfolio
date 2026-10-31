@@ -1310,8 +1310,9 @@
   </script>
 
   <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-    import { collection, getFirestore, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-analytics.js';
+    import { collection, getFirestore, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js';
 
     const firebaseConfig = {
       apiKey: 'AIzaSyC2s2kc5BG5693APEkFK0wUbEAjoYVrl-s',
@@ -1324,6 +1325,7 @@
     };
 
     const firebaseApp = initializeApp(firebaseConfig);
+    getAnalytics(firebaseApp);
     const database = getFirestore(firebaseApp);
     const contactForm = document.getElementById('contactForm');
     const contactStatus = document.getElementById('contactStatus');
